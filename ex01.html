@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coleção de animas</title>
+    
+</head>
+
+<body>
+
+    
+    <form name="frmanimais">
+        <table>
+            <tr>
+                <strong><td>Animal:</td></strong> 
+                <td><input type="text" name="nome" required></td>
+            </tr>
+            <tr>
+                <td>altura </td>
+                <td><input type="number" name="altura" required /></td>
+            </tr>
+            <tr>
+                <td>peso</td>
+                <td><input type="number" name="peso" required /></td>
+            </tr>
+            <tr>
+                <td>Velocidade</td>
+                <td><input type="number" name="velocidade" required /></td>
+            </tr>
+            <tr>
+                <td>Idade</td>
+                <td><input type="number" name="idade" required /></td>
+            </tr>
+            <input class="botao" type="submit" value="Adicionar">
+        </table>
+    </form>
+    
+    <table class="animais"> 
+        <thead>
+            <tr>
+                <td>Animal</td>
+                <td>Altura </td>
+                <td>Peso </td>
+                <td>Velocidade</td>
+                <td>Idade </td>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+            <tr>
+                <td>Média:</td>
+                <td id="altura"></td>
+                <td id="peso"></td>
+                <td id="velocidade"></td>
+                <td id="idademaxima"></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <ol type="i">
+        <strong><li>Mais alto: <span id="alto"></span></li></strong>
+        <strong><li>Mais pesado: <span id="pesado"></span></li></strong>
+        <strong><li>Mais veloz: <span id="veloz"></span></li></strong>
+        <strong><li>Mais longevo: <span id="longevo"></span></li> </strong>  
+    </ol>
+
+    <strong><p>Animas acima da média do peso: <span id="acima"></span></p></strong>
+</body>
+
+
+<script>
+    document.forms.frmanimais.addEventListener("submit", inserirlista);
+    vdados = [];
+    var altura = 0;
+    var peso = 0;
+    var velocidade = 0;
+    var idademaxima = 0;
+    var totalDeAnimais = 0;
+   
+    function inserirlista(e){
+        e.preventDefault();
+        var nome = document.forms.frmanimais.nome.value;
+        var altura = document.forms.frmanimais.altura.value;
+        var peso = document.forms.frmanimais.peso.value;
+        var velocidade = document.forms.frmanimais.velocidade.value;
+        var idade = document.forms.frmanimais.idade.value;
+        var tbody = document.getElementsByTagName("tbody")[1];
+        var alturat = document.getElementById("altura");
+        var pesot = document.getElementById("peso");
+        var velocidadet = document.getElementById("velocidade");
+        var idadet = document.getElementById("idademaxima");
+        salto = document.getElementById("alto");
+        spesado = document.getElementById("pesado");
+        sveloz = document.getElementById("veloz");
+        slongevo = document.getElementById("longevo");
+        novoTr = document.createElement("tr");
+        novoTdNome = document.createElement("td");
+        novoalturat = document.createElement("td");
+        novopesot = document.createElement("td");
+        novovelocidadet = document.createElement("td");
+        novoidadet = document.createElement("td");
+        novoTdNome.innerText = nome;
+        novoalturat.innerText = altura;
+        novopesot.innerText = peso;
+        novovelocidadet.innerText = velocidade; 
+        novoidadet.innerText = idade;
+        novoTr.appendChild(novoTdNome);
+        novoTr.appendChild(novoalturat);
+        novoTr.appendChild(novopesot);
+        novoTr.appendChild(novovelocidadet);
+        novoTr.appendChild(novoidadet);
+        tbody.appendChild(novoTr);
+        vdados.push({nome:nome,altura:altura,peso:peso,velocidade:velocidade,idade:idade});
+        altura=peso=velocidade=idademaxima=0;
+        var alto=0,pesado=0,veloz=0,longevo=0;
+        
+        for (var i = 0; i < vdados.length; i++) {
+            altura += Number(vdados[i].altura);
+            peso += Number(vdados[i].peso);
+            velocidade += Number(vdados[i].velocidade);
+            idademaxima += Number(vdados[i].idade);
+            if(vdados[i].altura>vdados[alto].altura) alto=i;
+            if(vdados[i].peso>vdados[pesado].peso) pesado=i;
+            if(vdados[i].velocidade>vdados[veloz].velocidade) veloz=i;
+            if(vdados[i].idade>vdados[longevo].idade) longevo=i;
+        }
+
+        alturat.innerText = altura/vdados.length;
+        pesot.innerText = peso/vdados.length;
+        velocidadet.innerText = velocidade/vdados.length;
+        idadet.innerText = idademaxima/vdados.length;
+        
+        salto.innerText = vdados[alto].nome;
+        spesado.innerText = vdados[pesado].nome;
+        sveloz.innerText = vdados[veloz].nome;
+        slongevo.innerText = vdados[longevo].nome;
+        
+        var pesomedio = peso/vdados.length;
+        var animaisn=0;
+        var aciman = document.getElementById("acima");
+        for (var i = 0; i < vdados.length; i++) {
+            if(vdados[i].peso>pesomedio) animaisn++;
+        }
+        aciman.innerText = animaisn;
+    }
+</script>
+
+</html>
